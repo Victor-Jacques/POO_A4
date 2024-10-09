@@ -15,7 +15,7 @@ import java.util.*;
 public class ProdutoCRUD {
     private static final String ARQUIVO = "C:\\Users\\Lucas\\Documents\\programacao\\pasta_txt\\arq.txt";
 
-    public static void adicionarProduto(Produto produto) {
+    public void adicionarProduto(Produto produto) {
         
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARQUIVO, true))) {
             
@@ -27,7 +27,7 @@ public class ProdutoCRUD {
         }
     }
 
-    public static List<Produto> lerProdutos() {
+    public List<Produto> lerProdutos() {
         List<Produto> produtos = new ArrayList<>();
         
         try (BufferedReader reader = new BufferedReader(new FileReader(ARQUIVO))) {
@@ -43,7 +43,7 @@ public class ProdutoCRUD {
         return produtos;
     }
 
-    public static void atualizarProduto(String nome, Produto novoProduto) {
+    public void atualizarProduto(String nome, Produto novoProduto) {
         List<Produto> produtos = lerProdutos();
         
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARQUIVO))) {
@@ -64,7 +64,7 @@ public class ProdutoCRUD {
         }
     }
 
-    public static void excluirProduto(String nome) {
+    public void excluirProduto(String nome) {
         List<Produto> produtos = lerProdutos();
         
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARQUIVO))) {
@@ -82,7 +82,7 @@ public class ProdutoCRUD {
         }
     }
     
-    public static void exibirProdutos() {
+    public void exibirProdutos() {
         List<Produto> produtos = lerProdutos();
         
         for (Produto produto : produtos) {
@@ -90,7 +90,7 @@ public class ProdutoCRUD {
         }
     }
 
-    public static void main(String[] args) {
+    public void main(String[] args) {
         // Adicionar um produto
         Produto produto1 = new Produto("Celular", 1200.00, 10);
         adicionarProduto(produto1);
