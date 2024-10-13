@@ -13,8 +13,29 @@ import java.io.*;
 import java.util.*;
 
 public class ProdutoCRUD {
-    private static final String ARQUIVO = "C:\\Users\\Lucas\\Documents\\programacao\\pasta_txt\\arq.txt";
+    private static final String ARQUIVO = "arq.txt";
 
+    public static void verificarOuCriarArquivo() {
+        File arquivo = new File(ARQUIVO);
+
+        // Verifica se o arquivo já existe
+        if (!arquivo.exists()) {
+            try {
+                if (arquivo.createNewFile()) {
+                    System.out.println("Arquivo criado com sucesso: " + ARQUIVO);
+                } else {
+                    System.out.println("Falha ao criar o arquivo.");
+                }
+            } catch (IOException e) {
+                System.out.println("Ocorreu um erro ao criar o arquivo.");
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Arquivo já existe: " + ARQUIVO);
+        }
+    }
+
+    
     public void adicionarProduto(Produto produto) {
         
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARQUIVO, true))) {
@@ -92,18 +113,18 @@ public class ProdutoCRUD {
 
     public void main(String[] args) {
         // Adicionar um produto
-        Produto produto1 = new Produto("Celular", 1200.00, 10);
-        adicionarProduto(produto1);
+        //Produto produto1 = new Produto("Celular", 1200, 10);
+        //adicionarProduto(produto1);
 
         // Exibir todos os produtos
         exibirProdutos();
 
         // Atualizar um produto
-        Produto produtoAtualizado = new Produto("Celular", 1100.00, 8);
-        atualizarProduto(produto1.getId(), produtoAtualizado);
+        //Produto produtoAtualizado = new Produto("Celular", 1100, 8);
+        //atualizarProduto(produto1.getId(), produtoAtualizado);
 
-        // Excluir um produto
-        excluirProduto(produto1.getId());
+        //Excluir um produto
+        //excluirProduto(produto1.getId());
 
         // Exibir novamente
         exibirProdutos();

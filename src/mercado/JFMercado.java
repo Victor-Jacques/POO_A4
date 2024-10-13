@@ -4,9 +4,13 @@
  */
 package mercado;
 
+import java.lang.invoke.MethodHandles;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,6 +24,7 @@ public class JFMercado extends javax.swing.JFrame {
      */
     public JFMercado() {
         initComponents();
+        mostrar();
     }
 
     /**
@@ -39,7 +44,6 @@ public class JFMercado extends javax.swing.JFrame {
         TFQtd = new javax.swing.JTextField();
         addButton = new javax.swing.JButton();
         atuaButton = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
@@ -56,6 +60,12 @@ public class JFMercado extends javax.swing.JFrame {
 
         jLabel3.setText("Quantidade");
 
+        TFnome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TFnomeActionPerformed(evt);
+            }
+        });
+
         addButton.setText("Adicionar");
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -69,8 +79,6 @@ public class JFMercado extends javax.swing.JFrame {
                 atuaButtonActionPerformed(evt);
             }
         });
-
-        jButton3.setText("jButton3");
 
         deleteButton.setText("Deletar");
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
@@ -86,7 +94,7 @@ public class JFMercado extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jList1);
 
-        jLabel4.setText("Nome do produto a ser atualizado");
+        jLabel4.setText("ID do produto a ser atualizado");
 
         jLabel5.setText("ID do produto a ser deletado");
 
@@ -98,12 +106,11 @@ public class JFMercado extends javax.swing.JFrame {
                 .addGap(93, 93, 93)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 502, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(addButton)
-                                .addGap(61, 61, 61)
-                                .addComponent(jButton3)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(125, 125, 125)
+                        .addComponent(addButton)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,53 +122,58 @@ public class JFMercado extends javax.swing.JFrame {
                             .addComponent(TFnome, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
                             .addComponent(TFPreco)
                             .addComponent(TFQtd))
-                        .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(atuaButton)
-                                .addGap(52, 52, 52))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(TFAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(81, 81, 81)
+                                .addComponent(TFAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(111, 111, 111)
+                                .addComponent(atuaButton))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(69, 69, 69)
+                                .addComponent(jLabel4)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(deleteButton)
-                                    .addComponent(TFId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(73, 73, 73))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel5)
-                                .addGap(34, 34, 34))))))
+                                .addGap(32, 32, 32))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(TFId, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(deleteButton))
+                                .addGap(73, 73, 73))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(77, 77, 77)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(TFnome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel4)
-                        .addComponent(jLabel5)))
-                .addGap(30, 30, 30)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(77, 77, 77)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(TFnome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(64, 64, 64)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(TFAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TFId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(TFPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TFAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TFId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(TFQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(atuaButton)
                     .addComponent(deleteButton))
-                .addGap(56, 56, 56)
+                .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addButton)
-                    .addComponent(jButton3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                    .addComponent(jLabel3)
+                    .addComponent(TFQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
+                .addComponent(addButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
         );
@@ -183,6 +195,10 @@ public class JFMercado extends javax.swing.JFrame {
         // TODO add your handling code here:
         excluir();
     }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void TFnomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFnomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TFnomeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -228,7 +244,6 @@ public class JFMercado extends javax.swing.JFrame {
     private javax.swing.JButton addButton;
     private javax.swing.JButton atuaButton;
     private javax.swing.JButton deleteButton;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -238,12 +253,18 @@ public class JFMercado extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 
+    
     private void criar() {
+        Random random = new Random();
+        int id = random.nextInt(1000) + 1;
+        id = idEquivalente(id);
+                
         String nome = TFnome.getText();
         double preco = Double.parseDouble(TFPreco.getText());
         int qtd = Integer.parseInt(TFQtd.getText());
         
-        Produto p = new Produto(nome, preco, qtd);
+        
+        Produto p = new Produto(id, nome, preco, qtd);
         ProdutoCRUD pr = new ProdutoCRUD();
         
         pr.adicionarProduto(p);
@@ -252,16 +273,34 @@ public class JFMercado extends javax.swing.JFrame {
         limpa();
     }
     
-    private void mostrar(){
-        List<Produto> produtos = new ArrayList<>();
+    private int idEquivalente(int id){
         ProdutoCRUD pr = new ProdutoCRUD();
+        List<Produto> produtos = pr.lerProdutos();
         
-        produtos = pr.lerProdutos();
+        for (Produto produto : produtos ){
+            if (produto.getId() == id){
+                System.out.println(id);
+                Random random = new Random();
+                id = random.nextInt(1000) + 1;
+                System.out.println(id);
+                return idEquivalente(id);
+            }
+        }
+        return id;
+    }
+    
+    private void mostrar(){
+        ProdutoCRUD pr = new ProdutoCRUD();
+        List<Produto> produtos = pr.lerProdutos();
+        
+
+
         DefaultListModel modelo = new DefaultListModel();
         jList1.setModel(modelo);
         
         for (Produto produto : produtos) {
-            modelo.addElement(produto);
+            String formatado = "ID: " + produto.getId() + "             /             Nome: " + produto.getNome() + "             /             Preço: " + produto.getPreco() + "             /             Quantidade: " + produto.getQuantidade();
+            modelo.addElement(formatado);
         }
     }
 
@@ -272,7 +311,7 @@ public class JFMercado extends javax.swing.JFrame {
         double preco = Double.parseDouble(TFPreco.getText());
         int qtd = Integer.parseInt(TFQtd.getText());
         
-        Produto p = new Produto(nome, preco, qtd);
+        Produto p = new Produto(id, nome, preco, qtd);
         ProdutoCRUD pr = new ProdutoCRUD();
         
         pr.atualizarProduto(id, p);

@@ -4,7 +4,8 @@
  */
 package mercado;
 
-import java.util.Random;
+import java.math.BigDecimal;
+
 
 /**
  *
@@ -15,12 +16,12 @@ public class Produto {
     private double preco;
     private int quantidade;
     private int id;
-
-    public Produto(String nome, double preco, int quantidade) {
+    
+    public Produto(int id, String nome, double preco, int quantidade) {
         this.nome = nome;
         this.preco = preco;
         this.quantidade = quantidade;
-        this.id = getId();
+        this.id = id;
         
     }
 
@@ -36,7 +37,7 @@ public class Produto {
         return preco;
     }
 
-    public void setPreco(double preco) {
+    public void setPreco(Double preco) {
         this.preco = preco;
     }
 
@@ -50,16 +51,19 @@ public class Produto {
 
     @Override
     public String toString() {
-        return id + "," + nome + "," + preco + "," + quantidade;
+        return id + ", " + nome + ", " + preco + ", " + quantidade;
     }
 
     public static Produto fromString(String linha) {
-        String[] partes = linha.split(",");
-        return new Produto(partes[0], Double.parseDouble(partes[1]), Integer.parseInt(partes[2]));
+        String[] partes = linha.split(", ");
+        int id = Integer.parseInt(partes[0]);
+        String nome = partes[1];
+        double preco = Double.parseDouble(partes[2]);
+        int quantidade = Integer.parseInt(partes[3]);
+        return new Produto(id, nome, preco, quantidade);
     }
     
-    private void setId(int id){
-        id = genereteRandom();
+    public void setId(int id){
         this.id = id;
     }
     
@@ -67,10 +71,5 @@ public class Produto {
         return id;
     }   
     
-    private int genereteRandom(){
-        Random random = new Random();
-        int num = random.nextInt(1000);
-        
-        return num;
-    }
+    
 }
