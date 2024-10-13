@@ -92,18 +92,18 @@ public class ProdutoCRUD {
 
     public void main(String[] args) {
         // Adicionar um produto
-        Produto produto1 = new Produto("Celular", 1200.00, 10);
-        adicionarProduto(produto1);
+        //Produto produto1 = new Produto("Celular", 1200.00, 10);
+        //adicionarProduto(produto1);
 
         // Exibir todos os produtos
         exibirProdutos();
 
         // Atualizar um produto
-        Produto produtoAtualizado = new Produto("Celular", 1100.00, 8);
-        atualizarProduto(produto1.getId(), produtoAtualizado);
+        //Produto produtoAtualizado = new Produto("Celular", 1100.00, 8);
+        //atualizarProduto(produto1.getId(), produtoAtualizado);
 
         // Excluir um produto
-        excluirProduto(produto1.getId());
+        //excluirProduto(produto1.getId());
 
         // Exibir novamente
         exibirProdutos();

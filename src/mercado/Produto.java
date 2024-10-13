@@ -16,11 +16,11 @@ public class Produto {
     private int quantidade;
     private int id;
 
-    public Produto(String nome, double preco, int quantidade) {
+    public Produto(int id, String nome, double preco, int quantidade) {
         this.nome = nome;
         this.preco = preco;
         this.quantidade = quantidade;
-        this.id = getId();
+        this.id = id;
         
     }
 
@@ -55,12 +55,7 @@ public class Produto {
 
     public static Produto fromString(String linha) {
         String[] partes = linha.split(",");
-        return new Produto(partes[0], Double.parseDouble(partes[1]), Integer.parseInt(partes[2]));
-    }
-    
-    private void setId(int id){
-        id = genereteRandom();
-        this.id = id;
+        return new Produto(Integer.parseInt(partes[0]), partes[1], Double.parseDouble(partes[2]), Integer.parseInt(partes[3]));
     }
     
     int getId(){
@@ -68,9 +63,8 @@ public class Produto {
     }   
     
     private int genereteRandom(){
-        Random random = new Random();
-        int num = random.nextInt(1000);
+        Random random = new Random(); 
         
-        return num;
+        return random.nextInt(1000);
     }
 }
