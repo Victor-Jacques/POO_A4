@@ -4,6 +4,8 @@
  */
 package mercado;
 
+import java.util.Random;
+
 /**
  *
  * @author Lucas
@@ -12,11 +14,14 @@ public class Produto {
     private String nome;
     private double preco;
     private int quantidade;
+    private int id;
 
     public Produto(String nome, double preco, int quantidade) {
         this.nome = nome;
         this.preco = preco;
         this.quantidade = quantidade;
+        this.id = getId();
+        
     }
 
     public String getNome() {
@@ -45,11 +50,27 @@ public class Produto {
 
     @Override
     public String toString() {
-        return nome + "," + preco + "," + quantidade;
+        return id + "," + nome + "," + preco + "," + quantidade;
     }
 
     public static Produto fromString(String linha) {
         String[] partes = linha.split(",");
         return new Produto(partes[0], Double.parseDouble(partes[1]), Integer.parseInt(partes[2]));
+    }
+    
+    private void setId(int id){
+        id = genereteRandom();
+        this.id = id;
+    }
+    
+    int getId(){
+        return id;
+    }   
+    
+    private int genereteRandom(){
+        Random random = new Random();
+        int num = random.nextInt(1000);
+        
+        return num;
     }
 }

@@ -43,14 +43,14 @@ public class ProdutoCRUD {
         return produtos;
     }
 
-    public void atualizarProduto(String nome, Produto novoProduto) {
+    public void atualizarProduto(int id, Produto novoProduto) {
         List<Produto> produtos = lerProdutos();
         
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARQUIVO))) {
             
             for (Produto produto : produtos) {
                 
-                if (produto.getNome().equalsIgnoreCase(nome)) {
+                if (produto.getId() == id) {
                     writer.write(novoProduto.toString());
                 } else {
                     writer.write(produto.toString());
@@ -64,14 +64,14 @@ public class ProdutoCRUD {
         }
     }
 
-    public void excluirProduto(String nome) {
+    public void excluirProduto(int id) {
         List<Produto> produtos = lerProdutos();
         
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARQUIVO))) {
             
             for (Produto produto : produtos) {
                 
-                if (!produto.getNome().equalsIgnoreCase(nome)) {
+                if (!(produto.getId() == id)) {
                     writer.write(produto.toString());
                     writer.newLine();
                 }
@@ -100,10 +100,10 @@ public class ProdutoCRUD {
 
         // Atualizar um produto
         Produto produtoAtualizado = new Produto("Celular", 1100.00, 8);
-        atualizarProduto("Celular", produtoAtualizado);
+        atualizarProduto(produto1.getId(), produtoAtualizado);
 
         // Excluir um produto
-        excluirProduto("Celular");
+        excluirProduto(produto1.getId());
 
         // Exibir novamente
         exibirProdutos();
