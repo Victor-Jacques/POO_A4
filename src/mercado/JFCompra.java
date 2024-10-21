@@ -137,7 +137,7 @@ public class JFCompra extends javax.swing.JFrame {
 
     private void JCProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCProdutoActionPerformed
         // TODO add your handling code here:
-        ProdutoCRUD crud = new ProdutoCRUD();
+        ProdutoCRUD crud = new ProdutoCRUD("arq.txt");
         List<Produto> listP = crud.lerProdutos();
         
         for(Produto p : listP){
@@ -155,7 +155,7 @@ public class JFCompra extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        ProdutoCRUD crud = new ProdutoCRUD();
+        ProdutoCRUD crud = new ProdutoCRUD("arqTemp.txt");
         List<Produto> listP = crud.lerProdutos();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -212,7 +212,7 @@ public class JFCompra extends javax.swing.JFrame {
 
     public void comboBox(){
         
-        ProdutoCRUD crud = new ProdutoCRUD();
+        ProdutoCRUD crud = new ProdutoCRUD("arqTemp.txt");
         List<Produto> listP = crud.lerProdutos();
         
         

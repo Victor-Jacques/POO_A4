@@ -13,8 +13,16 @@ import java.io.*;
 import java.util.*;
 
 public class ProdutoCRUD {
-    private static final String ARQUIVO = "C:\\Users\\Lucas\\Documents\\programacao\\pasta_txt\\arq.txt";
-
+    private String ARQUIVO;
+    
+    public ProdutoCRUD(String ARQUIVO){
+        this.ARQUIVO = ARQUIVO;
+    }
+    
+    public void setARQUIVO(String ARQUIVO){
+        this.ARQUIVO = ARQUIVO;
+    }
+    
     public void adicionarProduto(Produto produto) {
         
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARQUIVO, true))) {

@@ -303,7 +303,7 @@ public class JFMercado extends javax.swing.JFrame {
         
         
         Produto p = new Produto(id, nome, preco, qtd);
-        ProdutoCRUD pr = new ProdutoCRUD();
+        ProdutoCRUD pr = new ProdutoCRUD("arq.txt");
         
         pr.adicionarProduto(p);
         
@@ -312,7 +312,7 @@ public class JFMercado extends javax.swing.JFrame {
     }
     
     private int idEquivalente(int id){
-        ProdutoCRUD pr = new ProdutoCRUD();
+        ProdutoCRUD pr = new ProdutoCRUD("arq.txt");
         List<Produto> produtos = pr.lerProdutos();
         
         for (Produto produto : produtos ){
@@ -328,7 +328,7 @@ public class JFMercado extends javax.swing.JFrame {
     }
     
     private void mostrar(){
-        ProdutoCRUD pr = new ProdutoCRUD();
+        ProdutoCRUD pr = new ProdutoCRUD("arq.txt");
         
         List<Produto> produtos = pr.lerProdutos();
         DefaultListModel modelo = new DefaultListModel();
@@ -343,7 +343,7 @@ public class JFMercado extends javax.swing.JFrame {
     private void atualizar() {
         int id = Integer.parseInt(TFAtualizar.getText());
         
-        ProdutoCRUD pr = new ProdutoCRUD();
+        ProdutoCRUD pr = new ProdutoCRUD("arq.txt");
         List<Produto> produtos = pr.lerProdutos();
         Produto p2 = new Produto(0, "0", 0, 0);
         
@@ -375,7 +375,7 @@ public class JFMercado extends javax.swing.JFrame {
 
     private void excluir() {
         int id = Integer.parseInt(TFId.getText());
-        ProdutoCRUD pr = new ProdutoCRUD();
+        ProdutoCRUD pr = new ProdutoCRUD("arq.txt");
         
         pr.excluirProduto(id);
         
