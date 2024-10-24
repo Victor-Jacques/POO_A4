@@ -97,6 +97,24 @@ public class ProdutoCRUD {
             System.out.println("Nome: " + produto.getNome() + ", Preço: " + produto.getPreco() + ", Quantidade: " + produto.getQuantidade());
         }
     }
+    
+    public void limpar_arquivo(){
+        
+        
+        File arquivo = new File("C:\\Users\\Lucas\\Documents\\NetBeansProjects\\Mercado\\" + ARQUIVO);
+
+        // Verifica se o arquivo existe e tenta deletar
+        if (arquivo.exists()) {
+            if (arquivo.delete()) {
+                System.out.println("Arquivo deletado com sucesso.");
+            } else {
+                System.out.println("Falha ao deletar o arquivo.");
+            }
+        } else {
+            System.out.println("O arquivo não existe.");
+        }
+    }
+        
 
     public void main(String[] args) {
         // Adicionar um produto

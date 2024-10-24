@@ -317,7 +317,7 @@ public class JFVenda extends javax.swing.JFrame {
         
         for(Produto p : listP){
             if(JCProduto.getSelectedItem().equals(p.getNome())){
-                
+                p.setQuantidade(Integer.parseInt(JCQtd.getSelectedItem().toString()));
                 crudtemp.adicionarProduto(p);
                 
             }
@@ -350,9 +350,24 @@ public class JFVenda extends javax.swing.JFrame {
     }
 
     private void vender() {
-        ProdutoCRUD crud = new ProdutoCRUD("arqTemp.txt");
+        ProdutoCRUD crudVenda = new ProdutoCRUD("arqTemp.txt");
+        ProdutoCRUD crudEstoque = new ProdutoCRUD("arq.txt");
         
+        List<Produto> listV = crudVenda.lerProdutos();
+        List<Produto> listE = crudEstoque.lerProdutos();
         
+        for(Produto vendido : listV){
+            for(Produto estoque : listE){
+                if(vendido.getId() == estoque.getId()){
+                    estoque.setQuantidade(estoque.getQuantidade() - vendido.getQuantidade());
+                    crudEstoque.atualizarProduto(estoque.getId(), estoque);
+                }
+            }
+        }
+        
+        crudVenda.limpar_arquivo();
+        JFVenda.this.dispose();
+
     }
     
     

@@ -4,11 +4,16 @@
  */
 package mercado;
 
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -36,30 +41,21 @@ public class JFMercado extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         TFnome = new javax.swing.JTextField();
         TFPreco = new javax.swing.JTextField();
-        TFQtd = new javax.swing.JTextField();
         addButton = new javax.swing.JButton();
         atuaButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jLabel4 = new javax.swing.JLabel();
-        TFAtualizar = new javax.swing.JTextField();
-        TFId = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        IDNOTFOUND = new javax.swing.JLabel();
         JBVender = new javax.swing.JButton();
         JBComprar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Nome");
 
         jLabel2.setText("Preco");
-
-        jLabel3.setText("Quantidade");
 
         addButton.setText("Adicionar");
         addButton.addActionListener(new java.awt.event.ActionListener() {
@@ -82,19 +78,6 @@ public class JFMercado extends javax.swing.JFrame {
             }
         });
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "id ; nome ; preco ; quantidade", " " };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(jList1);
-
-        jLabel4.setText("ID do produto a ser atualizado");
-
-        jLabel5.setText("ID do produto a ser deletado");
-
-        IDNOTFOUND.setText("ID nao encontrado");
-
         JBVender.setText("Vender");
         JBVender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,81 +92,61 @@ public class JFMercado extends javax.swing.JFrame {
             }
         });
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "ID", "Nome", "Preço", "Quantidade"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(56, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(123, 123, 123)
-                                .addComponent(addButton))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
-                                .addGap(34, 34, 34)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(TFnome)
-                                    .addComponent(TFPreco)
-                                    .addComponent(TFQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(43, 43, 43)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(63, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(218, 218, 218)
+                            .addComponent(JBVender)
+                            .addGap(18, 18, 18)
+                            .addComponent(JBComprar)
+                            .addGap(448, 448, 448))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addGap(40, 40, 40)
-                                    .addComponent(atuaButton))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel1)
+                                        .addComponent(jLabel2))
+                                    .addGap(63, 63, 63)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(TFnome, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                                        .addComponent(TFPreco)))
                                 .addGroup(layout.createSequentialGroup()
-                                    .addGap(11, 11, 11)
-                                    .addComponent(TFAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jLabel4))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addComponent(IDNOTFOUND)))
-                        .addGap(66, 66, 66)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(deleteButton)
-                                .addGap(39, 39, 39))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(TFId)
-                                .addComponent(jLabel5)))
-                        .addGap(110, 110, 110))
+                                    .addGap(79, 79, 79)
+                                    .addComponent(addButton)))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(89, 89, 89)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(JBVender)
-                                .addGap(352, 352, 352)
-                                .addComponent(JBComprar))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 502, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(158, 158, 158))))
+                        .addComponent(deleteButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(atuaButton)
+                        .addGap(166, 166, 166))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(jLabel4)
-                        .addGap(30, 30, 30)
-                        .addComponent(TFAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(11, 11, 11)
-                        .addComponent(IDNOTFOUND)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(atuaButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(jLabel5)
-                        .addGap(30, 30, 30)
-                        .addComponent(TFId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
-                        .addComponent(deleteButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
+                        .addGap(112, 112, 112)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(TFnome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -191,19 +154,21 @@ public class JFMercado extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(TFPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(39, 39, 39)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(TFQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(addButton)))
-                .addGap(33, 33, 33)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
+                        .addGap(38, 38, 38)
+                        .addComponent(addButton)
+                        .addGap(0, 59, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(75, 75, 75)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(deleteButton)
+                    .addComponent(atuaButton))
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(JBVender)
                     .addComponent(JBComprar))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addGap(27, 27, 27))
         );
 
         pack();
@@ -272,24 +237,17 @@ public class JFMercado extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel IDNOTFOUND;
     private javax.swing.JButton JBComprar;
     private javax.swing.JButton JBVender;
-    private javax.swing.JTextField TFAtualizar;
-    private javax.swing.JTextField TFId;
     private javax.swing.JTextField TFPreco;
-    private javax.swing.JTextField TFQtd;
     private javax.swing.JTextField TFnome;
     private javax.swing.JButton addButton;
     private javax.swing.JButton atuaButton;
     private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 
     private void criar() {
@@ -299,7 +257,7 @@ public class JFMercado extends javax.swing.JFrame {
                 
         String nome = TFnome.getText();
         double preco = Double.parseDouble(TFPreco.getText());
-        int qtd = Integer.parseInt(TFQtd.getText());
+        int qtd = 0;
         
         
         Produto p = new Produto(id, nome, preco, qtd);
@@ -328,56 +286,125 @@ public class JFMercado extends javax.swing.JFrame {
     }
     
     private void mostrar(){
-        ProdutoCRUD pr = new ProdutoCRUD("arq.txt");
+        ProdutoCRUD crud = new ProdutoCRUD("arq.txt");
+        List<Produto> listP = crud.lerProdutos();
         
-        List<Produto> produtos = pr.lerProdutos();
-        DefaultListModel modelo = new DefaultListModel();
-        jList1.setModel(modelo);
+        String[] colunas = {"ID", "Nome", "Preço", "Quantidade"};
+        DefaultTableModel modelo = new DefaultTableModel(colunas, 0);
         
-        for (Produto produto : produtos) {
-            String sla = "ID: " + produto.getId() + "      Nome: " + produto.getNome() + "            Preço: " + produto.getPreco() + "           Quantidade: " + produto.getQuantidade();
-            modelo.addElement(sla);
+
+        
+        jTable1.setModel(modelo);
+        
+        
+        for (Produto produto : listP) {
+            Object[] linha = {
+                produto.getId(),
+                produto.getNome(),
+                produto.getPreco(),
+                produto.getQuantidade()
+            };
+            
+            modelo.addRow(linha);
         }
     }
 
     private void atualizar() {
-        int id = Integer.parseInt(TFAtualizar.getText());
+        
+        String valor = "";
+        String nome = "";
+        int id = 0;
+        JTextField idField = new JTextField();
+        JTextField nomeField = new JTextField();
+        JTextField valorField = new JTextField();
+        
+        
+        // Cria um painel para organizar os componentes
+        JPanel painel = new JPanel(new GridLayout(3, 3));
+        painel.add(new JLabel("Digite o ID do produto"));
+        painel.add(idField);
+        painel.add(new JLabel("O novo nome do seu produto:"));
+        painel.add(nomeField);
+        painel.add(new JLabel("Digite o novo valor do produto:"));
+        painel.add(valorField);
+
+        // Exibe o painel em um JOptionPane
+        int resultado = JOptionPane.showConfirmDialog(null, painel, 
+                "Informações Pessoais", JOptionPane.OK_CANCEL_OPTION);
+
+        // Verifica se o usuário clicou em OK
+        if (resultado == JOptionPane.OK_OPTION) {
+            String strid = idField.getText();
+            nome = nomeField.getText();
+            valor = valorField.getText();
+            
+            id = Integer.parseInt(strid);
+        } else {
+            System.out.println("Operação cancelada.");
+        }
+        
+        
         
         ProdutoCRUD pr = new ProdutoCRUD("arq.txt");
         List<Produto> produtos = pr.lerProdutos();
         Produto p2 = new Produto(0, "0", 0, 0);
         
         for(Produto p: produtos){
-            if(p.getId() == id){
+            if(id != 0){
+                if(p.getId() == id){
                 p2 = p;
-            }
+                }
+            } 
         }
         
+        if(!"".equals(nome)){
+            p2.setNome(nome);
+        } 
         
-        if(!"".equals(TFnome.getText())){
-            p2.setNome(TFnome.getText());
+        if(!"".equals(valor)){
+            p2.setPreco(Double.parseDouble(valor));
         }
         
-        if(!"".equals(TFPreco.getText())){
-            p2.setPreco(Double.parseDouble(TFPreco.getText()));
-        }
-        
-        if(!"".equals(TFQtd.getText())){
-            p2.setQuantidade(Integer.parseInt(TFQtd.getText()));
-        }
-        
-        
+
         pr.atualizarProduto(id, p2);
         
         mostrar();
         limpa();
     }
+    
+    
 
     private void excluir() {
-        int id = Integer.parseInt(TFId.getText());
+        
+        int id = 0;
+        
+        JTextField idField = new JTextField();
+        
+        JPanel painel = new JPanel(new GridLayout(3, 3));
+        painel.add(new JLabel("Digite o ID do produto"));
+        painel.add(idField);
+        
+        int resultado = JOptionPane.showConfirmDialog(null, painel, 
+                "Informações Pessoais", JOptionPane.OK_CANCEL_OPTION);
+        
+        if (resultado == JOptionPane.OK_OPTION) {
+            String strid = idField.getText();
+            
+            
+            id = Integer.parseInt(strid);
+        } else {
+            System.out.println("Operação cancelada.");
+        }
+        
+        
         ProdutoCRUD pr = new ProdutoCRUD("arq.txt");
         
-        pr.excluirProduto(id);
+        
+        
+        if(id != 0){
+            pr.excluirProduto(id);
+        }
+        
         
         mostrar();
         limpa();
@@ -386,8 +413,6 @@ public class JFMercado extends javax.swing.JFrame {
     private void limpa(){
         TFnome.setText("");
         TFPreco.setText("");
-        TFQtd.setText("");
-        TFAtualizar.setText("");
     }
     
     
