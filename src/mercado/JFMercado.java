@@ -50,6 +50,7 @@ public class JFMercado extends javax.swing.JFrame {
         JBComprar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        AtualizarTabela = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,7 +65,7 @@ public class JFMercado extends javax.swing.JFrame {
             }
         });
 
-        atuaButton.setText("Atualizar");
+        atuaButton.setText("Editar");
         atuaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 atuaButtonActionPerformed(evt);
@@ -105,11 +106,18 @@ public class JFMercado extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        AtualizarTabela.setText("Atualizar");
+        AtualizarTabela.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AtualizarTabelaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap(63, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -136,10 +144,12 @@ public class JFMercado extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(89, 89, 89)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(AtualizarTabela)
+                        .addGap(18, 18, 18)
                         .addComponent(deleteButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(atuaButton)
-                        .addGap(166, 166, 166))))
+                        .addGap(149, 149, 149))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,11 +170,12 @@ public class JFMercado extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(75, 75, 75)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                .addGap(14, 14, 14)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(deleteButton)
-                    .addComponent(atuaButton))
-                .addGap(30, 30, 30)
+                    .addComponent(atuaButton)
+                    .addComponent(AtualizarTabela))
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(JBVender)
                     .addComponent(JBComprar))
@@ -200,6 +211,11 @@ public class JFMercado extends javax.swing.JFrame {
         JFCompra compra = new JFCompra();
         compra.setVisible(true);
     }//GEN-LAST:event_JBComprarActionPerformed
+
+    private void AtualizarTabelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtualizarTabelaActionPerformed
+        // TODO add your handling code here:
+        mostrar();
+    }//GEN-LAST:event_AtualizarTabelaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -237,6 +253,7 @@ public class JFMercado extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AtualizarTabela;
     private javax.swing.JButton JBComprar;
     private javax.swing.JButton JBVender;
     private javax.swing.JTextField TFPreco;

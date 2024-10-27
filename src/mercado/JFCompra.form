@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -125,8 +125,14 @@
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TFSubTotalActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="TFValorUni">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="JBAddList">
       <Properties>
@@ -157,11 +163,35 @@
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="4" rowCount="4">
-                <Column editable="true" title="ID" type="java.lang.Object"/>
-                <Column editable="true" title="Nome" type="java.lang.Object"/>
-                <Column editable="true" title="Quantidade" type="java.lang.Object"/>
-                <Column editable="true" title="Valor total" type="java.lang.Object"/>
+                <Column editable="false" title="ID" type="java.lang.Object"/>
+                <Column editable="false" title="Nome" type="java.lang.Object"/>
+                <Column editable="false" title="Valor" type="java.lang.Object"/>
+                <Column editable="false" title="Quantidade" type="java.lang.Object"/>
               </Table>
+            </Property>
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+              <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+              </TableColumnModel>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
@@ -172,7 +202,7 @@
     </Container>
     <Component class="javax.swing.JButton" name="JBVender">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Vender"/>
+        <Property name="text" type="java.lang.String" value="Comprar"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JBVenderActionPerformed"/>
@@ -203,7 +233,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="JLValorTotal">
       <Properties>
-        <Property name="text" type="java.lang.String" value="0, 00"/>
+        <Property name="text" type="java.lang.String" value="0.00"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
@@ -221,6 +251,7 @@
         <Property name="text" type="java.lang.String" value="1"/>
       </Properties>
       <Events>
+        <EventHandler event="inputMethodTextChanged" listener="java.awt.event.InputMethodListener" parameters="java.awt.event.InputMethodEvent" handler="TFQtdInputMethodTextChanged"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TFQtdActionPerformed"/>
       </Events>
     </Component>

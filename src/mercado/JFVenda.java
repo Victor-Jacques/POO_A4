@@ -4,6 +4,8 @@
  */
 package mercado;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -72,7 +74,7 @@ public class JFVenda extends javax.swing.JFrame {
 
         jLabel4.setText("Valor Unitario");
 
-        JLValorTotal.setText("0, 00");
+        JLValorTotal.setText("0.00");
 
         jLabel6.setText("Valor Total: R$");
 
@@ -310,6 +312,7 @@ public class JFVenda extends javax.swing.JFrame {
     }
 
     private void addToArq() {
+        
         ProdutoCRUD crud = new ProdutoCRUD("arq.txt");
         ProdutoCRUD crudtemp = new ProdutoCRUD("arqTemp.txt");
         List<Produto> listP = crud.lerProdutos();
@@ -323,6 +326,7 @@ public class JFVenda extends javax.swing.JFrame {
             }
         }
         
+        addTotal();
         listar(crudtemp);
     }
 
@@ -350,6 +354,7 @@ public class JFVenda extends javax.swing.JFrame {
     }
 
     private void vender() {
+        
         ProdutoCRUD crudVenda = new ProdutoCRUD("arqTemp.txt");
         ProdutoCRUD crudEstoque = new ProdutoCRUD("arq.txt");
         
@@ -365,10 +370,17 @@ public class JFVenda extends javax.swing.JFrame {
             }
         }
         
+        
+               
         crudVenda.limpar_arquivo();
         JFVenda.this.dispose();
+        
 
     }
     
-    
+    private void addTotal() {
+        double valorTotal = Double.parseDouble(TFSubTotal.getText());
+        double valorFinal = Double.parseDouble(JLValorTotal.getText()) + valorTotal;
+        JLValorTotal.setText(Double.toString(valorFinal));
+    }
 }

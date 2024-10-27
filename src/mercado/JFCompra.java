@@ -49,6 +49,13 @@ public class JFCompra extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         TFSubTotal.setEditable(false);
+        TFSubTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TFSubTotalActionPerformed(evt);
+            }
+        });
+
+        TFValorUni.setEditable(false);
 
         JBAddList.setText("Adicionar a lista");
         JBAddList.addActionListener(new java.awt.event.ActionListener() {
@@ -69,12 +76,20 @@ public class JFCompra extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "ID", "Nome", "Quantidade", "Valor total"
+                "ID", "Nome", "Valor", "Quantidade"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(jTable1);
 
-        JBVender.setText("Vender");
+        JBVender.setText("Comprar");
         JBVender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 JBVenderActionPerformed(evt);
@@ -91,13 +106,20 @@ public class JFCompra extends javax.swing.JFrame {
 
         jLabel4.setText("Valor Unitario");
 
-        JLValorTotal.setText("0, 00");
+        JLValorTotal.setText("0.00");
 
         jLabel6.setText("Valor Total: R$");
 
         jLabel7.setText("Sub Total");
 
         TFQtd.setText("1");
+        TFQtd.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                TFQtdInputMethodTextChanged(evt);
+            }
+        });
         TFQtd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TFQtdActionPerformed(evt);
@@ -194,7 +216,9 @@ public class JFCompra extends javax.swing.JFrame {
         // TODO add your handling code here:
         vender();
     }//GEN-LAST:event_JBVenderActionPerformed
-
+    
+    
+    
     private void JCProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCProdutoActionPerformed
         // TODO add your handling code here:
         selecionado();
@@ -204,6 +228,16 @@ public class JFCompra extends javax.swing.JFrame {
         // TODO add your handling code here:
         setValorTotal();
     }//GEN-LAST:event_TFQtdActionPerformed
+    
+    private void TFSubTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFSubTotalActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_TFSubTotalActionPerformed
+
+    private void TFQtdInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_TFQtdInputMethodTextChanged
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_TFQtdInputMethodTextChanged
 
     /**
      * @param args the command line arguments
@@ -284,12 +318,14 @@ public class JFCompra extends javax.swing.JFrame {
         setValorTotal();
     }
 
-    private void setValorTotal() {
+    private double setValorTotal() {
         double valor = Double.parseDouble(TFValorUni.getText());
         int qtd = Integer.parseInt(TFQtd.getText());
         double total = qtd * valor;
         
         TFSubTotal.setText(Double.toString(total)); 
+        
+        return total;
     }
 
     private void addToArq() {
@@ -306,10 +342,12 @@ public class JFCompra extends javax.swing.JFrame {
             }
         }
         
-        listar(crudtemp);
+        double valor = setValorTotal();
+        addTotal();
+        listar(crudtemp, valor);
     }
 
-    private void listar(ProdutoCRUD crudtemp) {
+    private void listar(ProdutoCRUD crudtemp, double valor) {
         List<Produto> listP = crudtemp.lerProdutos();
         
         String[] colunas = {"ID", "Nome", "Preço", "Quantidade"};
@@ -321,11 +359,13 @@ public class JFCompra extends javax.swing.JFrame {
         
         
         for (Produto produto : listP) {
+            
             Object[] linha = {
                 produto.getId(),
                 produto.getNome(),
                 produto.getPreco(),
-                produto.getQuantidade()
+                produto.getQuantidade(),
+                valor
             };
             
             modelo.addRow(linha);
@@ -342,14 +382,20 @@ public class JFCompra extends javax.swing.JFrame {
         for(Produto vendido : listV){
             for(Produto estoque : listE){
                 if(vendido.getId() == estoque.getId()){
-                    estoque.setQuantidade(estoque.getQuantidade() - vendido.getQuantidade());
+                    estoque.setQuantidade(estoque.getQuantidade() + vendido.getQuantidade());
                     crudEstoque.atualizarProduto(estoque.getId(), estoque);
                 }
             }
         }
         
-        //crudVenda.limpar_arquivo();
-        //JFVenda.this.dispose();
+        crudVenda.limpar_arquivo();
+        JFCompra.this.dispose();
 
+    }
+
+    private void addTotal() {
+        double valorTotal = Double.parseDouble(TFSubTotal.getText());
+        double valorFinal = Double.parseDouble(JLValorTotal.getText()) + valorTotal;
+        JLValorTotal.setText(Double.toString(valorFinal));
     }
 }

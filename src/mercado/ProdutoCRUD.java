@@ -101,7 +101,7 @@ public class ProdutoCRUD {
     public void limpar_arquivo(){
         
         
-        File arquivo = new File("C:\\Users\\Lucas\\Documents\\NetBeansProjects\\Mercado\\" + ARQUIVO);
+        File arquivo = new File(ARQUIVO);
 
         // Verifica se o arquivo existe e tenta deletar
         if (arquivo.exists()) {
