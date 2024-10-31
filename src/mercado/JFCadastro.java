@@ -5,6 +5,10 @@
 package mercado;
 
 import java.awt.GridLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,23 +17,44 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import mercado.Metodos;
 
 /**
  *
  * @author Lucas
  */
-public class JFMercado extends javax.swing.JFrame {
+public class JFCadastro extends javax.swing.JFrame {
 
     /**
      * Creates new form JFMercado
      */
-    public JFMercado() {
+    private JFRead janelaPrincipal;
+    JFRead readFile = new JFRead();
+    Metodos util = new Metodos(readFile);
+
+    public JFCadastro(JFRead janelaPrincipal) {
+        this.janelaPrincipal = janelaPrincipal; // Armazena a referência
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                // Chama o método mostrar() do frame read
+                util.mostrar(janelaPrincipal.JFReadTable);
+            }
+        });
+
         initComponents();
-        mostrar();
-        
+        setLocationRelativeTo(null);
+        util.mostrar(CadastroTable);
+
     }
-        
+
+    JFCadastro() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -46,16 +71,17 @@ public class JFMercado extends javax.swing.JFrame {
         addButton = new javax.swing.JButton();
         atuaButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
-        JBVender = new javax.swing.JButton();
-        JBComprar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        CadastroTable = new javax.swing.JTable();
         AtualizarTabela = new javax.swing.JButton();
+        label1 = new java.awt.Label();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel1.setText("Nome");
 
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setText("Preco");
 
         addButton.setText("Adicionar");
@@ -79,21 +105,8 @@ public class JFMercado extends javax.swing.JFrame {
             }
         });
 
-        JBVender.setText("Vender");
-        JBVender.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JBVenderActionPerformed(evt);
-            }
-        });
-
-        JBComprar.setText("Comprar");
-        JBComprar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JBComprarActionPerformed(evt);
-            }
-        });
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        CadastroTable.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        CadastroTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -104,7 +117,14 @@ public class JFMercado extends javax.swing.JFrame {
                 "ID", "Nome", "Preço", "Quantidade"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        SwingUtilities.invokeLater(() -> {
+            TableColumnModel columnModel = CadastroTable.getColumnModel();
+            columnModel.getColumn(0).setPreferredWidth(50);   // Coluna ID
+            columnModel.getColumn(1).setPreferredWidth(150);  // Coluna Nome
+            columnModel.getColumn(2).setPreferredWidth(100);  // Coluna Valor
+            columnModel.getColumn(3).setPreferredWidth(100);  // Coluna Quantidade
+        });
+        jScrollPane1.setViewportView(CadastroTable);
 
         AtualizarTabela.setText("Atualizar");
         AtualizarTabela.addActionListener(new java.awt.event.ActionListener() {
@@ -113,73 +133,66 @@ public class JFMercado extends javax.swing.JFrame {
             }
         });
 
+        label1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        label1.setText("Menu de Cadastro");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(63, Short.MAX_VALUE)
+                .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(218, 218, 218)
-                            .addComponent(JBVender)
-                            .addGap(18, 18, 18)
-                            .addComponent(JBComprar)
-                            .addGap(448, 448, 448))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel1)
-                                        .addComponent(jLabel2))
-                                    .addGap(63, 63, 63)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(TFnome, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
-                                        .addComponent(TFPreco)))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(79, 79, 79)
-                                    .addComponent(addButton)))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(89, 89, 89)))
+                    .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addGap(63, 63, 63)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TFnome, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TFPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(AtualizarTabela)
-                        .addGap(18, 18, 18)
-                        .addComponent(deleteButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(atuaButton)
-                        .addGap(149, 149, 149))))
+                        .addComponent(addButton)
+                        .addGap(38, 38, 38)))
+                .addGap(31, 31, 31)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(35, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(AtualizarTabela)
+                .addGap(74, 74, 74)
+                .addComponent(deleteButton)
+                .addGap(73, 73, 73)
+                .addComponent(atuaButton)
+                .addGap(94, 94, 94))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(112, 112, 112)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(TFnome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30)
+                        .addContainerGap()
+                        .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(97, 97, 97)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(TFPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(38, 38, 38)
-                        .addComponent(addButton)
-                        .addGap(0, 59, Short.MAX_VALUE))
+                            .addComponent(TFnome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(TFPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addComponent(addButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
+                        .addGap(32, 32, 32)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AtualizarTabela)
                     .addComponent(deleteButton)
-                    .addComponent(atuaButton)
-                    .addComponent(AtualizarTabela))
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JBVender)
-                    .addComponent(JBComprar))
-                .addGap(27, 27, 27))
+                    .addComponent(atuaButton))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
@@ -188,6 +201,7 @@ public class JFMercado extends javax.swing.JFrame {
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         // TODO add your handling code here:
         criar();
+        util.mostrar(CadastroTable);
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void atuaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atuaButtonActionPerformed
@@ -200,21 +214,9 @@ public class JFMercado extends javax.swing.JFrame {
         excluir();
     }//GEN-LAST:event_deleteButtonActionPerformed
 
-    private void JBVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBVenderActionPerformed
-        // TODO add your handling code here:
-        JFVenda venda = new JFVenda();
-        venda.setVisible(true);
-    }//GEN-LAST:event_JBVenderActionPerformed
-
-    private void JBComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBComprarActionPerformed
-        // TODO add your handling code here:
-        JFCompra compra = new JFCompra();
-        compra.setVisible(true);
-    }//GEN-LAST:event_JBComprarActionPerformed
-
     private void AtualizarTabelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtualizarTabelaActionPerformed
         // TODO add your handling code here:
-        mostrar();
+        util.mostrar(readFile.JFReadTable);
     }//GEN-LAST:event_AtualizarTabelaActionPerformed
 
     /**
@@ -234,28 +236,29 @@ public class JFMercado extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JFMercado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JFMercado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JFMercado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JFMercado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+        //</editor-fold>
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JFMercado().setVisible(true);
+                new JFCadastro().setVisible(true);
+
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AtualizarTabela;
-    private javax.swing.JButton JBComprar;
-    private javax.swing.JButton JBVender;
+    private javax.swing.JTable CadastroTable;
     private javax.swing.JTextField TFPreco;
     private javax.swing.JTextField TFnome;
     private javax.swing.JButton addButton;
@@ -264,34 +267,54 @@ public class JFMercado extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private java.awt.Label label1;
     // End of variables declaration//GEN-END:variables
 
     private void criar() {
         Random random = new Random();
         int id = random.nextInt(1000) + 1;
         id = idEquivalente(id);
-                
+
         String nome = TFnome.getText();
-        double preco = Double.parseDouble(TFPreco.getText());
-        int qtd = 0;
-        
-        
-        Produto p = new Produto(id, nome, preco, qtd);
+
+        // Formata o preço para ter duas casas decimais
+        String precoTexto = TFPreco.getText().replace(",", ".");
+        if (!precoTexto.contains(".")) {
+            precoTexto += ".00"; // Adiciona .00 se não houver separador decimal
+        } else if (precoTexto.split("\\.")[1].length() == 0) {
+            precoTexto += "00"; // Adiciona 00 se não houver casas decimais
+        } else if (precoTexto.split("\\.")[1].length() == 1) {
+            precoTexto += "0"; // Adiciona 0 se houver apenas uma casa decimal
+        }
+
         ProdutoCRUD pr = new ProdutoCRUD("arq.txt");
-        
+        List<Produto> listP = pr.lerProdutos();
+        for (Produto produto : listP) {
+            if (produto.getNome().equalsIgnoreCase(nome)) {
+                System.err.println("Já existe um produto com o nome: " + nome);
+                JOptionPane.showMessageDialog(rootPane, "Já existe um produto com esse nome " + nome);
+                return; // Saia do método se o produto já existir
+            }
+        }
+
+        BigDecimal preco = new BigDecimal(precoTexto);
+        int qtd = 0;
+
+        Produto p = new Produto(id, nome, preco, qtd);
+
         pr.adicionarProduto(p);
-        
-        mostrar();
+        util.mostrar(CadastroTable);
+        util.mostrar(readFile.JFReadTable);
         limpa();
+
     }
-    
-    private int idEquivalente(int id){
+
+    private int idEquivalente(int id) {
         ProdutoCRUD pr = new ProdutoCRUD("arq.txt");
         List<Produto> produtos = pr.lerProdutos();
-        
-        for (Produto produto : produtos ){
-            if (produto.getId() == id){
+
+        for (Produto produto : produtos) {
+            if (produto.getId() == id) {
                 System.out.println(id);
                 Random random = new Random();
                 id = random.nextInt(1000) + 1;
@@ -301,41 +324,15 @@ public class JFMercado extends javax.swing.JFrame {
         }
         return id;
     }
-    
-    private void mostrar(){
-        ProdutoCRUD crud = new ProdutoCRUD("arq.txt");
-        List<Produto> listP = crud.lerProdutos();
-        
-        String[] colunas = {"ID", "Nome", "Preço", "Quantidade"};
-        DefaultTableModel modelo = new DefaultTableModel(colunas, 0);
-        
-
-        
-        jTable1.setModel(modelo);
-        
-        
-        for (Produto produto : listP) {
-            Object[] linha = {
-                produto.getId(),
-                produto.getNome(),
-                produto.getPreco(),
-                produto.getQuantidade()
-            };
-            
-            modelo.addRow(linha);
-        }
-    }
 
     private void atualizar() {
-        
         String valor = "";
         String nome = "";
         int id = 0;
         JTextField idField = new JTextField();
         JTextField nomeField = new JTextField();
         JTextField valorField = new JTextField();
-        
-        
+
         // Cria um painel para organizar os componentes
         JPanel painel = new JPanel(new GridLayout(3, 3));
         painel.add(new JLabel("Digite o ID do produto"));
@@ -346,91 +343,85 @@ public class JFMercado extends javax.swing.JFrame {
         painel.add(valorField);
 
         // Exibe o painel em um JOptionPane
-        int resultado = JOptionPane.showConfirmDialog(null, painel, 
-                "Informações Pessoais", JOptionPane.OK_CANCEL_OPTION);
+        int resultado = JOptionPane.showConfirmDialog(null, painel,
+                "Informações do Produto", JOptionPane.OK_CANCEL_OPTION);
 
         // Verifica se o usuário clicou em OK
         if (resultado == JOptionPane.OK_OPTION) {
             String strid = idField.getText();
             nome = nomeField.getText();
             valor = valorField.getText();
-            
+
             id = Integer.parseInt(strid);
         } else {
             System.out.println("Operação cancelada.");
+            return; // Sai do método se cancelado
         }
-        
-        
-        
+
         ProdutoCRUD pr = new ProdutoCRUD("arq.txt");
         List<Produto> produtos = pr.lerProdutos();
-        Produto p2 = new Produto(0, "0", 0, 0);
-        
-        for(Produto p: produtos){
-            if(id != 0){
-                if(p.getId() == id){
+        Produto p2 = new Produto(0, "0", BigDecimal.ZERO, 0);
+
+        for (Produto p : produtos) {
+            if (id != 0 && p.getId() == id) {
                 p2 = p;
-                }
-            } 
+                break; // Encerra o loop se encontrou o produto
+            }
         }
-        
-        if(!"".equals(nome)){
+
+        if (!"".equals(nome)) {
             p2.setNome(nome);
-        } 
-        
-        if(!"".equals(valor)){
-            p2.setPreco(Double.parseDouble(valor));
         }
-        
+
+        if (!"".equals(valor)) {
+            valor = valorField.getText().replace(",", ".");
+            try {
+                p2.setPreco(new BigDecimal(valor));
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Formato de valor inválido. Por favor, use um número decimal.");
+                return;
+            }
+        }
 
         pr.atualizarProduto(id, p2);
-        
-        mostrar();
+        util.mostrar(CadastroTable);
         limpa();
     }
-    
-    
 
     private void excluir() {
-        
+
         int id = 0;
-        
+
         JTextField idField = new JTextField();
-        
+
         JPanel painel = new JPanel(new GridLayout(3, 3));
         painel.add(new JLabel("Digite o ID do produto"));
         painel.add(idField);
-        
-        int resultado = JOptionPane.showConfirmDialog(null, painel, 
+
+        int resultado = JOptionPane.showConfirmDialog(null, painel,
                 "Informações Pessoais", JOptionPane.OK_CANCEL_OPTION);
-        
+
         if (resultado == JOptionPane.OK_OPTION) {
             String strid = idField.getText();
-            
-            
+
             id = Integer.parseInt(strid);
         } else {
             System.out.println("Operação cancelada.");
         }
-        
-        
+
         ProdutoCRUD pr = new ProdutoCRUD("arq.txt");
-        
-        
-        
-        if(id != 0){
+
+        if (id != 0) {
             pr.excluirProduto(id);
         }
-        
-        
-        mostrar();
+
+        util.mostrar(CadastroTable);
         limpa();
     }
-    
-    private void limpa(){
+
+    private void limpa() {
         TFnome.setText("");
         TFPreco.setText("");
     }
-    
-    
+
 }

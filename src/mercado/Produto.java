@@ -4,6 +4,7 @@
  */
 package mercado;
 
+import java.math.BigDecimal;
 import java.util.Random;
 
 /**
@@ -12,11 +13,11 @@ import java.util.Random;
  */
 public class Produto {
     private String nome;
-    private double preco;
+    private BigDecimal preco;
     private int quantidade;
     private int id;
 
-    public Produto(int id, String nome, double preco, int quantidade) {
+    public Produto(int id, String nome, BigDecimal preco, int quantidade) {
         this.nome = nome;
         this.preco = preco;
         this.quantidade = quantidade;
@@ -32,11 +33,11 @@ public class Produto {
         this.nome = nome;
     }
 
-    public double getPreco() {
+    public BigDecimal getPreco() {
         return preco;
     }
 
-    public void setPreco(double preco) {
+    public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
 
@@ -50,13 +51,30 @@ public class Produto {
 
     @Override
     public String toString() {
-        return id + "," + nome + "," + preco + "," + quantidade;
+        return id + ";" + nome + ";" + preco + ";" + quantidade;
     }
 
     public static Produto fromString(String linha) {
-        String[] partes = linha.split(",");
-        return new Produto(Integer.parseInt(partes[0]), partes[1], Double.parseDouble(partes[2]), Integer.parseInt(partes[3]));
+    // Usar vírgula como delimitador
+    String[] partes = linha.split(";"); 
+    // Verifica se todas as partes estão presentes
+    if (partes.length < 4) {
+        throw new IllegalArgumentException("Linha inválida: " + linha);
     }
+    
+    // Tente converter os valores e trate exceções
+    try {
+        int id = Integer.parseInt(partes[0]);
+        String nome = partes[1];
+        BigDecimal valor = new BigDecimal(partes[2]);
+        int quantidade = Integer.parseInt(partes[3]);
+        
+        return new Produto(id, nome, valor, quantidade);
+    } catch (NumberFormatException e) {
+        throw new IllegalArgumentException("Erro ao converter valores da linha: " + linha, e);
+    }
+}
+
     
     int getId(){
         return id;

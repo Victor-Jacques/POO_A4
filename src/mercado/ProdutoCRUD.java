@@ -35,21 +35,28 @@ public class ProdutoCRUD {
         }
     }
 
+
     public List<Produto> lerProdutos() {
-        List<Produto> produtos = new ArrayList<>();
-        
-        try (BufferedReader reader = new BufferedReader(new FileReader(ARQUIVO))) {
-            String linha;
-            
-            while ((linha = reader.readLine()) != null) {
-                produtos.add(Produto.fromString(linha));
+    List<Produto> produtos = new ArrayList<>();
+
+    try (BufferedReader reader = new BufferedReader(new FileReader(ARQUIVO))) {
+        String linha;
+
+        while ((linha = reader.readLine()) != null) {
+            if (!linha.trim().isEmpty()) {
+                try {
+                    produtos.add(Produto.fromString(linha));
+                } catch (IllegalArgumentException e) {
+                    System.err.println(e.getMessage()); 
+                }
             }
-            
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return produtos;
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+    return produtos;
+}
+
 
     public void atualizarProduto(int id, Produto novoProduto) {
         List<Produto> produtos = lerProdutos();

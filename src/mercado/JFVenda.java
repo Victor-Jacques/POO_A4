@@ -6,11 +6,17 @@ package mercado;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import mercado.Metodos;
 
 /**
  *
@@ -21,9 +27,31 @@ public class JFVenda extends javax.swing.JFrame {
     /**
      * Creates new form JFVenda
      */
-    public JFVenda() {
+    private JFRead janelaPrincipal;
+    JFRead readFile = new JFRead();
+    Metodos util = new Metodos(readFile);
+    ProdutoCRUD crud = new ProdutoCRUD("arq.txt");
+    ProdutoCRUD crudtemp = new ProdutoCRUD("arqTemp.txt");
+    List<Produto> listP = crud.lerProdutos();
+
+    public JFVenda(JFRead janelaPrincipal) {
+        this.janelaPrincipal = janelaPrincipal;
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                // Chama o método mostrar() do frame read
+                util.mostrar(janelaPrincipal.JFReadTable);
+            }
+        });
+
         initComponents();
+        setLocationRelativeTo(null);
         comboBox();
+
+    }
+
+    JFVenda() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**
@@ -49,14 +77,22 @@ public class JFVenda extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         JCQtd = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        VendaTable = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
-        jLabel1.setText("Compra ");
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel1.setText("Menu de Venda");
 
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setText("Produto");
 
+        JBVender.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         JBVender.setText("Vender");
         JBVender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -70,17 +106,21 @@ public class JFVenda extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel3.setText("Quantidade");
 
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel4.setText("Valor Unitario");
 
         JLValorTotal.setText("0.00");
 
         jLabel6.setText("Valor Total: R$");
 
+        jLabel7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel7.setText("Sub Total");
 
-        jButton1.setText("Adicionar a lista");
+        jButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jButton1.setText("Adicionar ao Carrinho");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -93,7 +133,7 @@ public class JFVenda extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        VendaTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -104,30 +144,24 @@ public class JFVenda extends javax.swing.JFrame {
                 "ID", "Nome", "Quantidade", "Valor total"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        SwingUtilities.invokeLater(() -> {
+            TableColumnModel columnModel = VendaTable.getColumnModel();
+            columnModel.getColumn(0).setPreferredWidth(50);   // Coluna ID
+            columnModel.getColumn(1).setPreferredWidth(150);  // Coluna Nome
+            columnModel.getColumn(2).setPreferredWidth(100);  // Coluna Valor
+            columnModel.getColumn(3).setPreferredWidth(100);  // Coluna Quantidade
+        });
+        jScrollPane2.setViewportView(VendaTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 604, Short.MAX_VALUE)
-                .addComponent(JBVender, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(513, 513, 513)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(JLValorTotal))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(534, 534, 534)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(117, 117, 117)
+                        .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(JCProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -135,53 +169,65 @@ public class JFVenda extends javax.swing.JFrame {
                                     .addComponent(jLabel1))
                                 .addGap(49, 49, 49)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(JCQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(TFValorUni))
-                                .addGap(18, 18, 18)
+                                    .addComponent(JCQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3))
+                                .addGap(45, 45, 45)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(TFValorUni, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4))
+                                .addGap(43, 43, 43)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7)
-                                    .addComponent(TFSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addGap(106, 106, 106))
+                                    .addComponent(TFSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(JBVender, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(JLValorTotal)))
+                        .addGap(7, 7, 7)))
+                .addContainerGap(30, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(105, 105, 105))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(46, 46, 46)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(JCProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JCQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel7)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(TFSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel4)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(TFValorUni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(40, 40, 40)
+                .addGap(16, 16, 16)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel4)
+                        .addComponent(jLabel7)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(JCQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TFValorUni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TFSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(JCProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addGap(51, 51, 51)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JLValorTotal)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JLValorTotal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(JBVender, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                .addGap(30, 30, 30))
         );
 
         pack();
@@ -190,25 +236,33 @@ public class JFVenda extends javax.swing.JFrame {
     private void JCProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCProdutoActionPerformed
         // TODO add your handling code here:
         JCQtd.removeAllItems();
-        selecionado();
+        util.selecionarProduto(listP, JCProduto, TFValorUni, null, JCQtd, TFSubTotal);
     }//GEN-LAST:event_JCProdutoActionPerformed
 
     private void JCQtdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCQtdActionPerformed
         // TODO add your handling code here:
-        if(JCQtd.getSelectedItem() != null){
-            calculaValor();
+        if (JCQtd.getSelectedItem() != null) {
+            util.calcularSubtotal(TFValorUni, JCQtd, TFSubTotal);
         }
     }//GEN-LAST:event_JCQtdActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        addToArq();
+
+        util.addToArq(JCProduto, JCQtd, TFSubTotal, JLValorTotal, VendaTable, crud, crudtemp);
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void JBVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBVenderActionPerformed
         // TODO add your handling code here:
-        vender();
+        util.processarTransacao(false);
+        this.dispose();
     }//GEN-LAST:event_JBVenderActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        util.mostrar(readFile.JFReadTable);
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
@@ -252,6 +306,7 @@ public class JFVenda extends javax.swing.JFrame {
     private javax.swing.JLabel JLValorTotal;
     private javax.swing.JTextField TFSubTotal;
     private javax.swing.JTextField TFValorUni;
+    private javax.swing.JTable VendaTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -260,127 +315,23 @@ public class JFVenda extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 
+    public final void comboBox() {
 
-    public void comboBox(){
-        
-        ProdutoCRUD crud = new ProdutoCRUD("arq.txt");
-        List<Produto> listP = crud.lerProdutos();
-        
-        
-        for(Produto p : listP){
+        for (Produto p : listP) {
             JCProduto.addItem(p.getNome());
         }
-        
-    }
 
-    private void selecionado() {
-        ProdutoCRUD crud = new ProdutoCRUD("arq.txt");
-        List<Produto> listP = crud.lerProdutos();
-        
-        for(Produto p : listP){
-            if(JCProduto.getSelectedItem().equals(p.getNome())){
-                setQtd(p);
-            }
-        }    
     }
 
     private void setQtd(Produto p) {
-        TFValorUni.setText(Double.toString(p.getPreco()));
-        
-        
-        for(int i = 1; i <= p.getQuantidade(); i++){
+        DecimalFormat df = new DecimalFormat("#,##0.00");
+        TFValorUni.setText(df.format(p.getPreco()));
+
+        for (int i = 1; i <= p.getQuantidade(); i++) {
             JCQtd.addItem(Integer.toString(i));
-        
+
         }
-    }
-
-    private void calculaValor() {
-        ProdutoCRUD crud = new ProdutoCRUD("arq.txt");
-        List<Produto> listP = crud.lerProdutos();
-        
-        String qtd = JCQtd.getSelectedItem().toString();
-        
-        for(Produto p : listP){
-            if(JCProduto.getSelectedItem().equals(p.getNome())){
-                double valor = p.getPreco() * Integer.parseInt(qtd);
-                TFSubTotal.setText(Double.toString(valor));
-            }
-        }
-    }
-
-    private void addToArq() {
-        
-        ProdutoCRUD crud = new ProdutoCRUD("arq.txt");
-        ProdutoCRUD crudtemp = new ProdutoCRUD("arqTemp.txt");
-        List<Produto> listP = crud.lerProdutos();
-        
-        
-        for(Produto p : listP){
-            if(JCProduto.getSelectedItem().equals(p.getNome())){
-                p.setQuantidade(Integer.parseInt(JCQtd.getSelectedItem().toString()));
-                crudtemp.adicionarProduto(p);
-                
-            }
-        }
-        
-        addTotal();
-        listar(crudtemp);
-    }
-
-    private void listar(ProdutoCRUD crudtemp) {
-        List<Produto> listP = crudtemp.lerProdutos();
-        
-        String[] colunas = {"ID", "Nome", "Preço", "Quantidade"};
-        DefaultTableModel modelo = new DefaultTableModel(colunas, 0);
-        
-
-        
-        jTable1.setModel(modelo);
-        
-        
-        for (Produto produto : listP) {
-            Object[] linha = {
-                produto.getId(),
-                produto.getNome(),
-                produto.getPreco(),
-                produto.getQuantidade()
-            };
-            
-            modelo.addRow(linha);
-        }
-    }
-
-    private void vender() {
-        
-        ProdutoCRUD crudVenda = new ProdutoCRUD("arqTemp.txt");
-        ProdutoCRUD crudEstoque = new ProdutoCRUD("arq.txt");
-        
-        List<Produto> listV = crudVenda.lerProdutos();
-        List<Produto> listE = crudEstoque.lerProdutos();
-        
-        for(Produto vendido : listV){
-            for(Produto estoque : listE){
-                if(vendido.getId() == estoque.getId()){
-                    estoque.setQuantidade(estoque.getQuantidade() - vendido.getQuantidade());
-                    crudEstoque.atualizarProduto(estoque.getId(), estoque);
-                }
-            }
-        }
-        
-        
-               
-        crudVenda.limpar_arquivo();
-        JFVenda.this.dispose();
-        
-
-    }
-    
-    private void addTotal() {
-        double valorTotal = Double.parseDouble(TFSubTotal.getText());
-        double valorFinal = Double.parseDouble(JLValorTotal.getText()) + valorTotal;
-        JLValorTotal.setText(Double.toString(valorFinal));
     }
 }
