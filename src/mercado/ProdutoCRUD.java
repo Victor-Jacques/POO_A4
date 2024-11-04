@@ -8,72 +8,71 @@ package mercado;
  *
  * @author Lucas
  */
-
 import java.io.*;
 import java.util.*;
+import javax.swing.JOptionPane;
 
 public class ProdutoCRUD {
+
     private String ARQUIVO;
-    
-    public ProdutoCRUD(String ARQUIVO){
+
+    public ProdutoCRUD(String ARQUIVO) {
         this.ARQUIVO = ARQUIVO;
     }
-    
-    public void setARQUIVO(String ARQUIVO){
+
+    public void setARQUIVO(String ARQUIVO) {
         this.ARQUIVO = ARQUIVO;
     }
-    
+
     public void adicionarProduto(Produto produto) {
-        
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARQUIVO, true))) {
-            
+
             writer.write(produto.toString());
             writer.newLine();
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
     public List<Produto> lerProdutos() {
-    List<Produto> produtos = new ArrayList<>();
+        List<Produto> produtos = new ArrayList<>();
 
-    try (BufferedReader reader = new BufferedReader(new FileReader(ARQUIVO))) {
-        String linha;
+        try (BufferedReader reader = new BufferedReader(new FileReader(ARQUIVO))) {
+            String linha;
 
-        while ((linha = reader.readLine()) != null) {
-            if (!linha.trim().isEmpty()) {
-                try {
-                    produtos.add(Produto.fromString(linha));
-                } catch (IllegalArgumentException e) {
-                    System.err.println(e.getMessage()); 
+            while ((linha = reader.readLine()) != null) {
+                if (!linha.trim().isEmpty()) {
+                    try {
+                        produtos.add(Produto.fromString(linha));
+                    } catch (IllegalArgumentException e) {
+                        System.err.println(e.getMessage());
+                    }
                 }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    } catch (IOException e) {
-        e.printStackTrace();
+        return produtos;
     }
-    return produtos;
-}
-
 
     public void atualizarProduto(int id, Produto novoProduto) {
         List<Produto> produtos = lerProdutos();
-        
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARQUIVO))) {
-            
+
             for (Produto produto : produtos) {
-                
+
                 if (produto.getId() == id) {
                     writer.write(novoProduto.toString());
                 } else {
                     writer.write(produto.toString());
                 }
-                
+
                 writer.newLine();
             }
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,33 +80,32 @@ public class ProdutoCRUD {
 
     public void excluirProduto(int id) {
         List<Produto> produtos = lerProdutos();
-        
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARQUIVO))) {
-            
+
             for (Produto produto : produtos) {
-                
+
                 if (!(produto.getId() == id)) {
                     writer.write(produto.toString());
                     writer.newLine();
                 }
-                
+
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
+
     public void exibirProdutos() {
         List<Produto> produtos = lerProdutos();
-        
+
         for (Produto produto : produtos) {
             System.out.println("Nome: " + produto.getNome() + ", Preço: " + produto.getPreco() + ", Quantidade: " + produto.getQuantidade());
         }
     }
-    
-    public void limpar_arquivo(){
-        
-        
+
+    public void limpar_arquivo() {
+
         File arquivo = new File(ARQUIVO);
 
         // Verifica se o arquivo existe e tenta deletar
@@ -121,24 +119,23 @@ public class ProdutoCRUD {
             System.out.println("O arquivo não existe.");
         }
     }
-        
 
-    public void main(String[] args) {
-        // Adicionar um produto
-        //Produto produto1 = new Produto("Celular", 1200.00, 10);
-        //adicionarProduto(produto1);
+    // Método para verificar se a tabela está vazia
+    public boolean arquivoVazio() {
+        try (BufferedReader br = new BufferedReader(new FileReader(ARQUIVO))) {
+            return br.readLine() == null;
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao ler o arquivo: " + e.getMessage());
+            return true; // Considerar como se estivesse vazio em caso de erro
+        }
+    }
 
-        // Exibir todos os produtos
-        exibirProdutos();
-
-        // Atualizar um produto
-        //Produto produtoAtualizado = new Produto("Celular", 1100.00, 8);
-        //atualizarProduto(produto1.getId(), produtoAtualizado);
-
-        // Excluir um produto
-        //excluirProduto(produto1.getId());
-
-        // Exibir novamente
-        exibirProdutos();
+    // Método para verificar se o arquivo está vazio e impedir operações
+    public boolean verificarArquivoVazio() {
+        if (arquivoVazio()) {
+            JOptionPane.showMessageDialog(null, "O banco de dados está vazio.\nFavor cadastrar algum produto para efetuar alguma movimentação");
+            return false; // Indica que a operação não pode ser realizada
+        }
+        return true; // Indica que a operação pode ser realizada
     }
 }

@@ -4,6 +4,7 @@
  */
 package mercado;
 
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.DecimalFormat;
@@ -251,6 +252,7 @@ public class JFCompra extends javax.swing.JFrame {
 
     private void JBAddListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBAddListActionPerformed
         // TODO add your handling code here:
+
         util.addToArq(JCProduto, TFQtd, TFSubTotal, JLValorTotal, CompraTable, crud, crudtemp);
         TFQtd.setText("");
     }//GEN-LAST:event_JBAddListActionPerformed
@@ -284,12 +286,28 @@ public class JFCompra extends javax.swing.JFrame {
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         // TODO add your handling code here:
+        ProdutoCRUD crudTransacao = new ProdutoCRUD("arqTemp.txt");
+        crudTransacao.limpar_arquivo();
         util.mostrar(readFile.JFReadTable);
     }//GEN-LAST:event_formWindowClosed
 
     private void TFQtdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TFQtdKeyReleased
         // TODO add your handling code here:
-        util.calcularSubtotal(TFValorUni, TFQtd, TFSubTotal);
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            evt.consume();
+        } else {
+            try {
+                int valor = Integer.parseInt(TFQtd.getText());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Entre apenas com numeros");
+                TFQtd.setText("");
+            } finally {
+                util.calcularSubtotal(TFValorUni, TFQtd, TFSubTotal);
+            }
+        }
+
+
     }//GEN-LAST:event_TFQtdKeyReleased
 
     /**

@@ -6,6 +6,7 @@ package mercado;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -250,17 +251,21 @@ public class JFVenda extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         util.addToArq(JCProduto, JCQtd, TFSubTotal, JLValorTotal, VendaTable, crud, crudtemp);
-
+        atualiza();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void JBVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBVenderActionPerformed
         // TODO add your handling code here:
         util.processarTransacao(false);
+        ProdutoCRUD crudTransacao = new ProdutoCRUD("arqTemp.txt");
+        crudTransacao.limpar_arquivo();
         this.dispose();
     }//GEN-LAST:event_JBVenderActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         // TODO add your handling code here:
+        ProdutoCRUD crudTransacao = new ProdutoCRUD("arqTemp.txt");
+        crudTransacao.limpar_arquivo();
         util.mostrar(readFile.JFReadTable);
     }//GEN-LAST:event_formWindowClosed
 
@@ -328,10 +333,22 @@ public class JFVenda extends javax.swing.JFrame {
     private void setQtd(Produto p) {
         DecimalFormat df = new DecimalFormat("#,##0.00");
         TFValorUni.setText(df.format(p.getPreco()));
+        JCQtd.removeAllItems();
 
         for (int i = 1; i <= p.getQuantidade(); i++) {
             JCQtd.addItem(Integer.toString(i));
 
         }
+    }
+
+    private void atualiza() {
+        int total = JCQtd.getItemCount();
+        int menos = Integer.parseInt(JCQtd.getSelectedItem().toString());
+        int novo = total - menos;
+        BigDecimal decimal = BigDecimal.ZERO;
+
+        Produto p = new Produto(0, "", decimal, novo);
+
+        setQtd(p);
     }
 }

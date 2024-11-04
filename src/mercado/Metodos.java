@@ -25,11 +25,11 @@ import javax.swing.table.DefaultTableModel;
 public class Metodos {
 
     private JFRead readFile;
-    
+
     public Metodos(JFRead readFile) {
         this.readFile = readFile;
     }
-    
+
     public final void mostrar(JTable tabela) {
         ProdutoCRUD crud = new ProdutoCRUD("arq.txt");
         List<Produto> listP = crud.lerProdutos();
@@ -122,6 +122,7 @@ public class Metodos {
     }
 
     public void calcularSubtotal(JTextField TFValorUni, Object quantidadeSource, JTextField TFSubTotal) {
+
         try {
             // Obtém o valor unitário como BigDecimal
             String valorStr = TFValorUni.getText().replace(".", "").replace(",", ".");
@@ -139,9 +140,12 @@ public class Metodos {
             BigDecimal subtotal = valorUnitario.multiply(new BigDecimal(quantidade));
             TFSubTotal.setText(subtotal.setScale(2, RoundingMode.HALF_UP).toString().replace(".", ","));
         } catch (NumberFormatException e) {
+
             System.err.println("Erro ao calcular subtotal: " + e.getMessage());
+
             TFSubTotal.setText("0,00");
         }
+
     }
 
     public void selecionarProduto(
@@ -186,94 +190,71 @@ public class Metodos {
     }
 
     public void processarTransacao(boolean isCompra) {
-    ProdutoCRUD crudTransacao = new ProdutoCRUD("arqTemp.txt");
-    ProdutoCRUD crudEstoque = new ProdutoCRUD("arq.txt");
+        ProdutoCRUD crudTransacao = new ProdutoCRUD("arqTemp.txt");
+        ProdutoCRUD crudEstoque = new ProdutoCRUD("arq.txt");
 
-    List<Produto> listTransacao = crudTransacao.lerProdutos();
-    List<Produto> listEstoque = crudEstoque.lerProdutos();
+        List<Produto> listTransacao = crudTransacao.lerProdutos();
+        List<Produto> listEstoque = crudEstoque.lerProdutos();
 
-    // Converte listEstoque em um Map para acesso rápido
-    Map<Integer, Produto> estoqueMap = new HashMap<>();
-    for (Produto produtoEstoque : listEstoque) {
-        estoqueMap.put(produtoEstoque.getId(), produtoEstoque);
-    }
+        // Converte listEstoque em um Map para acesso rápido
+        Map<Integer, Produto> estoqueMap = new HashMap<>();
+        for (Produto produtoEstoque : listEstoque) {
+            estoqueMap.put(produtoEstoque.getId(), produtoEstoque);
+        }
 
-    for (Produto produtoTransacao : listTransacao) {
-        Produto produtoEstoque = estoqueMap.get(produtoTransacao.getId());
-        
-        if (produtoEstoque != null) {
-            if (isCompra) {
-                produtoEstoque.setQuantidade(produtoEstoque.getQuantidade() + produtoTransacao.getQuantidade());
-            } else {
-                int novaQuantidade = produtoEstoque.getQuantidade() - produtoTransacao.getQuantidade();
-                if (novaQuantidade < 0) {
-                    JOptionPane.showMessageDialog(null, "Estoque insuficiente para o produto: " + produtoEstoque.getNome(), "Erro", JOptionPane.ERROR_MESSAGE);
-                    return;
+        for (Produto produtoTransacao : listTransacao) {
+            Produto produtoEstoque = estoqueMap.get(produtoTransacao.getId());
+
+            if (produtoEstoque != null) {
+                if (isCompra) {
+                    produtoEstoque.setQuantidade(produtoEstoque.getQuantidade() + produtoTransacao.getQuantidade());
+                } else {
+                    int novaQuantidade = produtoEstoque.getQuantidade() - produtoTransacao.getQuantidade();
+                    if (novaQuantidade < 0) {
+                        JOptionPane.showMessageDialog(null, "Estoque insuficiente para o produto: " + produtoEstoque.getNome(), "Erro", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    produtoEstoque.setQuantidade(novaQuantidade);
                 }
-                produtoEstoque.setQuantidade(novaQuantidade);
+                // Atualiza o produto no arquivo de estoque
+                crudEstoque.atualizarProduto(produtoEstoque.getId(), produtoEstoque);
             }
-            // Atualiza o produto no arquivo de estoque
-            crudEstoque.atualizarProduto(produtoEstoque.getId(), produtoEstoque);
         }
+
+        // Limpa o arquivo temporário
+        crudTransacao.limpar_arquivo();
+
+        // Exibe a nota fiscal com base na transação
+        if (isCompra) {
+            gerarNotaFiscal(listTransacao, true);
+        } else {
+            gerarNotaFiscal(listTransacao, false);
+        }
+
+        mostrar(readFile.JFReadTable);
     }
 
-    // Limpa o arquivo temporário
-    crudTransacao.limpar_arquivo();
-
-    // Exibe a nota fiscal com base na transação
-    if (isCompra) {
-        notaFiscalCompra(listTransacao);
-    } else {
-        notaFiscalVenda(listTransacao);
-    }
-
-    mostrar(readFile.JFReadTable);
-}
-
-
-
-    public void notaFiscalCompra(List<Produto> produtosComprados) {
+    public void gerarNotaFiscal(List<Produto> produtos, boolean isCompra) {
         StringBuilder notaFiscal = new StringBuilder();
-        notaFiscal.append("Nota Fiscal de Compra\n");
+
+        String tipoNota = isCompra ? "Compra" : "Venda";
+        notaFiscal.append("Nota Fiscal de ").append(tipoNota).append("\n");
         notaFiscal.append("---------------------------\n");
-        
+
         BigDecimal valorTotal = BigDecimal.ZERO;
 
-        for (Produto produto : produtosComprados) {
+        for (Produto produto : produtos) {
             notaFiscal.append("Produto: ").append(produto.getNome()).append("\n");
             notaFiscal.append("Quantidade: ").append(produto.getQuantidade()).append("\n");
             notaFiscal.append("Preço Unitário: ").append(produto.getPreco()).append("\n");
             notaFiscal.append("---------------------------\n");
-        
-            valorTotal = valorTotal.add(produto.getPreco().multiply(BigDecimal.valueOf(produto.getQuantidade())));
-            
-        }
-        
-        notaFiscal.append("Valor Total: ").append(valorTotal).append("\n");
-        
-        JOptionPane.showMessageDialog(null, notaFiscal.toString(), "Nota Fiscal de Compra", JOptionPane.INFORMATION_MESSAGE);
-    }
 
-    public void notaFiscalVenda(List<Produto> produtosVendidos) {
-        StringBuilder notaFiscal = new StringBuilder();
-        notaFiscal.append("Nota Fiscal de Venda\n");
-        notaFiscal.append("---------------------------\n");
-        
-        BigDecimal valorTotal = BigDecimal.ZERO;
-
-        for (Produto produto : produtosVendidos) {
-            notaFiscal.append("Produto: ").append(produto.getNome()).append("\n");
-            notaFiscal.append("Quantidade: ").append(produto.getQuantidade()).append("\n");
-            notaFiscal.append("Preço Unitário: ").append(produto.getPreco()).append("\n");
-            notaFiscal.append("---------------------------\n");
-            
             valorTotal = valorTotal.add(produto.getPreco().multiply(BigDecimal.valueOf(produto.getQuantidade())));
-            
         }
-        
+
         notaFiscal.append("Valor Total: ").append(valorTotal).append("\n");
-        
-        JOptionPane.showMessageDialog(null, notaFiscal.toString(), "Nota Fiscal de Venda", JOptionPane.INFORMATION_MESSAGE);
+
+        JOptionPane.showMessageDialog(null, notaFiscal.toString(), "Nota Fiscal de " + tipoNota, JOptionPane.INFORMATION_MESSAGE);
     }
 
     public boolean isNumeric(String str) {

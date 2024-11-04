@@ -1,5 +1,1 @@
-851;Mouse;250.00;0
-688;Teclado;700.00;10
-423;Headset;400.00;30
-492;headset razer;222.00;5
-52;Fralda Pampers;50.00;800
+378;Mouse;125.00;90
