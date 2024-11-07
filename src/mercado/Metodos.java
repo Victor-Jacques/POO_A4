@@ -7,6 +7,7 @@ package mercado;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import java.util.Date;
+
 
 /**
  *
@@ -236,10 +239,13 @@ public class Metodos {
 
     public void gerarNotaFiscal(List<Produto> produtos, boolean isCompra) {
         StringBuilder notaFiscal = new StringBuilder();
+        Date dataHora = new Date();
+        String data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
+        String hora = new SimpleDateFormat("    HH:mm:ss").format(dataHora);
 
         String tipoNota = isCompra ? "Compra" : "Venda";
-        notaFiscal.append("Nota Fiscal de ").append(tipoNota).append("\n");
-        notaFiscal.append("---------------------------\n");
+        notaFiscal.append("Nota Fiscal de ").append(tipoNota).append("\n").append(data).append(hora);
+        notaFiscal.append("\n---------------------------\n");
 
         BigDecimal valorTotal = BigDecimal.ZERO;
 
@@ -254,10 +260,18 @@ public class Metodos {
 
         notaFiscal.append("Valor Total: ").append(valorTotal).append("\n");
 
+        String nomeArquivo = "nota_fiscal.txt";
+        ProdutoCRUD pr = new ProdutoCRUD(nomeArquivo);
+
+        // Chama o método para salvar a nota fiscal em um arquivo
+        pr.salvarNotaFiscalEmArquivo(notaFiscal.toString(), nomeArquivo);
+        
         JOptionPane.showMessageDialog(null, notaFiscal.toString(), "Nota Fiscal de " + tipoNota, JOptionPane.INFORMATION_MESSAGE);
+
     }
 
-    public boolean isNumeric(String str) {
+
+public boolean isNumeric(String str) {
         try {
             new BigDecimal(str);
             return true;

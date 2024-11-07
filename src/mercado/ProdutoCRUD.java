@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 
 public class ProdutoCRUD {
 
+    private static final String CAMINHO_ARQUIVO = "notas_fiscais.txt";  // Caminho do arquivo de registro
     private String ARQUIVO;
 
     public ProdutoCRUD(String ARQUIVO) {
@@ -138,4 +139,19 @@ public class ProdutoCRUD {
         }
         return true; // Indica que a operação pode ser realizada
     }
+
+    public void salvarNotaFiscalEmArquivo(String conteudoNotaFiscal, String nomeArquivo) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo, true))) {
+            writer.write(conteudoNotaFiscal);  // Grava o conteúdo no arquivo
+            writer.newLine();
+            writer.newLine();
+            writer.write("//=============//==============//");
+            writer.newLine();
+            writer.newLine();
+            writer.flush();  // Assegura que o conteúdo seja escrito no arquivo
+        } catch (IOException e) {
+            System.err.println("Erro ao gravar a nota fiscal no arquivo: " + e.getMessage());
+        }
+    }
+
 }
